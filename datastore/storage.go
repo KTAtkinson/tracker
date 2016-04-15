@@ -8,7 +8,6 @@ import (
 
 type User struct {
     Email string
-    id int64
 }
 
 
