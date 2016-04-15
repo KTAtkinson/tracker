@@ -1,4 +1,4 @@
-package tracker
+package trackerds
 
 import (
     "appengine"
@@ -11,7 +11,7 @@ type User struct {
 }
 
 
-func createUser(ctx appengine.Context, email string) (*datastore.Key, error) {
+func CreateUser(ctx appengine.Context, email string) (*datastore.Key, error) {
     u := &User{
         Email: email,
         }
@@ -24,7 +24,7 @@ func createUser(ctx appengine.Context, email string) (*datastore.Key, error) {
     return key, nil
 }
 
-func getUser(ctx appengine.Context, email string) (u *User, e error) {
+func GetUser(ctx appengine.Context, email string) (u *User, e error) {
     users := []User{}
     q := datastore.NewQuery("User").Filter("Email=", email).Limit(1)
     _, err := q.GetAll(ctx, &users)

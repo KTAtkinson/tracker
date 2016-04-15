@@ -1,4 +1,4 @@
-package tracker
+package trackerds
 
 import (
     "testing"
@@ -16,7 +16,7 @@ func TestCreateUser(t *testing.T) {
     defer ctx.Close()
 
     email := "testing@testing.go"
-    newKey, err := createUser(ctx, email)
+    newKey, err := CreateUser(ctx, email)
     if err != nil {
         t.Errorf("Failed to create a new user: %v", err)
     }
@@ -37,8 +37,8 @@ func TestGetUser(t *testing.T) {
     defer ctx.Close()
 
     email := "testing@testing.go"
-    _, err = createUser(ctx, email)
-    u, err := getUser(ctx, email)
+    _, err = CreateUser(ctx, email)
+    u, err := GetUser(ctx, email)
 
     if u.Email != email {
         t.Error("Expected email to be %s, found %#v.", email, u.Email)
