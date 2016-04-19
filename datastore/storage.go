@@ -11,17 +11,17 @@ type User struct {
 }
 
 
-func CreateUser(ctx appengine.Context, email string) (*datastore.Key, error) {
+func CreateUser(ctx appengine.Context, email string) (key *datastore.Key, err error) {
     u := &User{
         Email: email,
         }
     incompleteKey := datastore.NewIncompleteKey(ctx, "User", nil)
-    key, err := datastore.Put(ctx, incompleteKey, u)
-    if err != nil {
-        return key, err
-    }
+    err = datastore.RunInTransaction(ctx, func(ctx appengine.Context) error {
+        key, err = datastore.Put(ctx, incompleteKey, u)
+        return err
+        }, nil)
 
-    return key, nil
+    return key, err
 }
 
 func GetUser(ctx appengine.Context, email string) (u *User, e error) {
