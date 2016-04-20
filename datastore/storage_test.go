@@ -38,7 +38,10 @@ func TestGetUser(t *testing.T) {
 
     email := "testing@testing.go"
     _, err = CreateUser(ctx, email)
-    u, _    := GetUser(ctx, email)
+    u, e := GetUser(ctx, email)
+    if e != nil {
+        t.Fatalf("Error while retieving users: %#v", e)
+     }
 
     if u.Email != email {
         t.Error("Expected email to be %s, found %#v.", email, u.Email)
