@@ -38,9 +38,23 @@ func TestGetUser(t *testing.T) {
 
     email := "testing@testing.go"
     _, err = CreateUser(ctx, email)
-    u, err := GetUser(ctx, email)
+    u, _    := GetUser(ctx, email)
 
     if u.Email != email {
         t.Error("Expected email to be %s, found %#v.", email, u.Email)
+    }
+}
+
+func TestRetrieveNoUser(t *testing.T) {
+    ctx, err := aetest.NewContext(&aetest.Options{StronglyConsistentDatastore: true})
+    if err != nil {
+        t.Fatal(err)
+    }
+    defer ctx.Close()
+
+    u, _ := GetUser(ctx, "nothing@testing.com")
+
+    if u != nil {
+        t.Errorf("Expected user to be nil found %#v.", u)
     }
 }

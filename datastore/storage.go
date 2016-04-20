@@ -31,5 +31,10 @@ func GetUser(ctx appengine.Context, email string) (u *User, e error) {
     if err != nil {
         return nil, err
     }
-    return &users[0], nil
+
+    if len(users) > 0 {
+        return &users[0], e
+    }
+
+    return u, e
 }
